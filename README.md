@@ -37,6 +37,8 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ## My process
 
+- websocket을 이용한 연결
+
 ### Built with
 
 - MVP.css library, CSS custom properties
