@@ -37,7 +37,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ## My process
 
-- websocket을 이용한 실시간 서버와 사용자 연결
+- socket.io를 이용한 실시간 서버와 사용자 연결 및 채팅룸 생성
 
 ### Built with
 
@@ -50,7 +50,7 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### What I learned
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+- socket.io의 활용 및 실시간 통신
 
 ### Continued development
 
