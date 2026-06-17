@@ -4,10 +4,15 @@ const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
 const cameraSelect = document.getElementById("cameras");
+const call = document.getElementById("call"); //call은 미디어와 관련된 요소
 
 let myStream;
 let muted = false;
 let cameraOff = false;
+let roomName;
+let myPeerConnection;
+
+// 미디어를 처리
 
 async function getCameras() {
   try {
@@ -51,8 +56,6 @@ async function getMedia(deviceId) {
   }
 }
 
-getMedia();
-
 function handleMuteClick() {
   myStream
     .getAudioTracks()
@@ -86,3 +89,55 @@ async function handleCameraChange() {
 muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
 cameraSelect.addEventListener("input", handleCameraChange);
+
+// welcome from (join a room) - 채팅룸 입장과 관련된 기능 추가
+const welcome = document.getElementById("welcome");
+const welcomeForm = welcome.querySelector("form");
+
+call.hidden = true;
+
+async function initCall() {
+  welcome.hidden = true;
+  call.hidden = false;
+  await getMedia();
+  makeConnection();
+}
+
+async function handleWelcomeSubmit(event) {
+  event.preventDefault();
+  const input = welcomeForm.querySelector("input");
+  await initCall();
+  socket.emit("join_room", input.value);
+  roomName = input.value;
+  input.value = "";
+}
+
+welcomeForm.addEventListener("submit", handleWelcomeSubmit);
+
+// Socket Code
+socket.on("welcome", async () => {
+  const offer = await myPeerConnection.createOffer();
+  myPeerConnection.setLocalDescription(offer); //연결의 속성 지정을 위해 사용
+  console.log("sent the offer"); //->이건 offer를 보내는 쪽에서 실행됨
+  socket.emit("offer", offer, roomName);
+});
+
+socket.on("offer", async (offer) => {
+  //-> 이건 offer을 받는쪽에서 실행됨
+  myPeerConnection.setRemoteDescription(offer);
+  const answer = await myPeerConnection.createAnswer();
+  myPeerConnection.setLocalDescription(answer);
+  socket.emit("answer", answer, roomName);
+});
+
+socket.on("answer", (answer) => {
+  myPeerConnection.setRemoteDescription(answer);
+});
+
+//RTC Code
+function makeConnection() {
+  myPeerConnection = new RTCPeerConnection(); //->각 peer간의 연결에 사용할 객체 생성
+  myStream
+    .getTracks()
+    .forEach((track) => myPeerConnection.addTrack(track, myStream));
+}
