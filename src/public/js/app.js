@@ -123,21 +123,36 @@ socket.on("welcome", async () => {
 });
 
 socket.on("offer", async (offer) => {
+  console.log("received the offer");
   //-> 이건 offer을 받는쪽에서 실행됨
   myPeerConnection.setRemoteDescription(offer);
   const answer = await myPeerConnection.createAnswer();
   myPeerConnection.setLocalDescription(answer);
   socket.emit("answer", answer, roomName);
+  console.log("sent the answer");
 });
 
 socket.on("answer", (answer) => {
+  console.log("received the answer");
   myPeerConnection.setRemoteDescription(answer);
+});
+
+socket.on("ice", (ice) => {
+  console.log("received candidate");
+  myPeerConnection.addIceCandidate(ice);
+  // addIceCandidate메서드는 전달받은 candidate를 내 peer에 추가하는 역할을 함
 });
 
 //RTC Code
 function makeConnection() {
   myPeerConnection = new RTCPeerConnection(); //->각 peer간의 연결에 사용할 객체 생성
+  myPeerConnection.addEventListener("icecandidate", handleIce);
   myStream
     .getTracks()
     .forEach((track) => myPeerConnection.addTrack(track, myStream));
+}
+
+function handleIce(data) {
+  console.log("sent candidate");
+  socket.emit("ice", data.candidate, roomName);
 }
