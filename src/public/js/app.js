@@ -152,20 +152,45 @@ socket.on("ice", (ice) => {
 
 //RTC Code
 function makeConnection() {
-  myPeerConnection = new RTCPeerConnection(); //->각 peer간의 연결에 사용할 객체 생성
+  myPeerConnection = new RTCPeerConnection({
+    iceServers: [
+      {
+        urls: [
+          "stun:stun.l.google.com:19302",
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
+          "stun:stun3.l.google.com:19302",
+          "stun:stun4.l.google.com:19302",
+        ],
+      },
+    ],
+  }); //->각 peer간의 연결에 사용할 객체 생성
   myPeerConnection.addEventListener("icecandidate", handleIce);
-  myPeerConnection.addEventListener("addstream", handleAddStream);
+  // myPeerConnection.addEventListener("addstream", handleAddStream); 구형
+  myPeerConnection.addEventListener("track", handleTrack);
+
   myStream
     .getTracks()
     .forEach((track) => myPeerConnection.addTrack(track, myStream));
 }
 
+// function handleIce(data) {
+//   console.log("sent candidate");
+//   socket.emit("ice", data.candidate, roomName);
+// }
 function handleIce(data) {
-  console.log("sent candidate");
-  socket.emit("ice", data.candidate, roomName);
+  if (data.candidate) {
+    console.log("sent candidate");
+    socket.emit("ice", data.candidate, roomName);
+  }
 }
 
-function handleAddStream(data) {
+// function handleAddStream(data) {
+//   const peerFace = document.getElementById("peerFace");
+//   peerFace.srcObject = data.streams;
+// }
+
+function handleTrack(data) {
   const peerFace = document.getElementById("peerFace");
-  peerFace.srcObject = data.stream;
+  peerFace.srcObject = data.streams[0];
 }
