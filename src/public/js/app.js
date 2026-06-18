@@ -147,6 +147,7 @@ socket.on("ice", (ice) => {
 function makeConnection() {
   myPeerConnection = new RTCPeerConnection(); //->각 peer간의 연결에 사용할 객체 생성
   myPeerConnection.addEventListener("icecandidate", handleIce);
+  myPeerConnection.addEventListener("addstream", handleAddStream);
   myStream
     .getTracks()
     .forEach((track) => myPeerConnection.addTrack(track, myStream));
@@ -155,4 +156,9 @@ function makeConnection() {
 function handleIce(data) {
   console.log("sent candidate");
   socket.emit("ice", data.candidate, roomName);
+}
+
+function handleAddStream(data) {
+  const peerFace = document.getElementById("peerFace");
+  peerFace.srcObject = data.stream;
 }
