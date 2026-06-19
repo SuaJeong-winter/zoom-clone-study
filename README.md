@@ -12,7 +12,6 @@
   - [Useful resources](#useful-resources)
   - [AI Collaboration](#ai-collaboration)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 **Note: Delete this note and update the table of contents based on what sections you keep.**
 
@@ -32,7 +31,6 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
 - Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
 ## My process
@@ -41,36 +39,29 @@ Then crop/optimize/edit your image however you like, add it to your project, and
 
 ### Built with
 
+- HTML 템플릿 엔진 pug
 - MVP.css library, CSS custom properties
 - JavaScript
 - WebRTC, socket.io
 - Express
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- ngrok
 
 ### What I learned
 
 - socket.io의 활용 및 실시간 통신
+- WebRTC의 프로세스
+- STUN과 ngrok 사용법
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+- CSS 발전시키기 (진행중)
+- data channel을 이용해 채팅 기능 추가하기
+- 사용자가 채팅룸에서 나갔을 때 스트림 제거하는 기능 추가하기
 
 ### Useful resources
 
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- [노마드코더 줌 클론코딩](https://nomadcoders.co/noom?gad_source=1&gad_campaignid=23855025787&gbraid=0AAAAACQEcGh9-9ulWgFeOZlfmACGmAX8-&gclid=Cj0KCQjwrs7RBhDuARIsAIVfBD34MNqxCwZg-OGOG9rvmvQYfN6I7B54EkTSMBphH4hx2sSygtRz40MaAgyDEALw_wcB) - 실습의 원본
 
 ### AI Collaboration
 
-개발 과정에서 Github Copilot을 사용하여 디버깅을 진행하였습니다.
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+개발 과정에서 chat gpt와 Github Copilot을 사용하여 디버깅, 오류 해결, 개발을 진행하였습니다.
