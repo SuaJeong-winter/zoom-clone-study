@@ -11,6 +11,7 @@ let muted = false;
 let cameraOff = false;
 let roomName;
 let myPeerConnection;
+let myDataChannel;
 
 // 미디어를 처리
 
@@ -123,6 +124,11 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
 // Socket Code
 socket.on("welcome", async () => {
+  myDataChannel = myPeerConnection.createDataChannel("chat");
+  myDataChannel.addEventListener("message", (event) => {
+    console.log(event.data);
+  });
+  console.log("made data channel");
   const offer = await myPeerConnection.createOffer();
   myPeerConnection.setLocalDescription(offer); //연결의 속성 지정을 위해 사용
   console.log("sent the offer"); //->이건 offer를 보내는 쪽에서 실행됨
@@ -130,6 +136,12 @@ socket.on("welcome", async () => {
 });
 
 socket.on("offer", async (offer) => {
+  myPeerConnection.addEventListener("datachannel", (event) => {
+    myDataChannel = event.channel;
+    myDataChannel.addEventListener("message", (event) => {
+      console.log(event.data);
+    });
+  });
   console.log("received the offer");
   //-> 이건 offer을 받는쪽에서 실행됨
   myPeerConnection.setRemoteDescription(offer);
